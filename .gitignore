@@ -1,0 +1,30 @@
+# Virtual environment
+.venv/
+
+# Python
+dist/
+__pycache__/
+*.py[cod]
+
+# Testing
+.pytest_cache/
+temp/
+
+# Emacs
+*~
+
+# VS Code
+.vscode
+
+# MacOS
+.DS_store
+
+# Drawing tools
+*.bkp
+
+# Marimo
+__marimo__
+
+# Build output
+dist/
+src/faw/static/
