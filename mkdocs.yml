@@ -7,9 +7,18 @@ theme:
 
 nav:
   - index.md
-  - license.md
-  - conduct.md
-  - contributing.md
+  - API:
+    - concept_map.md
+    - flashcard.md
+    - labeling.md
+    - matching.md
+    - multiple_choice.md
+    - ordering.md
+    - utilities.md
+  - Project:
+    - license.md
+    - conduct.md
+    - contributing.md
 
 plugins:
 - mkdocstrings:

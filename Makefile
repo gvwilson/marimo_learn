@@ -7,9 +7,15 @@ commands:
 	| sed -e 's/## //g' \
 	| column -t -s ':'
 
-## package: build package
-package:
+## build: build JavaScript and Python package
+build:
+	@cd js && npm run build
 	@python -m build
+
+## setup: complete installation of development dependencies
+setup:
+	@uv sync --dev
+	@cd js && npm install
 
 ## check: check Python code issues
 check:
@@ -19,7 +25,12 @@ check:
 clean:
 	@find . -path './.venv' -prune -o -type d -name '__pycache__' -exec rm -rf {} +
 	@find . -path './.venv' -prune -o -type f -name '*~' -exec rm {} +
-	@rm -rf dist temp
+	@rm -rf dist temp src/marimo_learn/static
+
+## coverage: run tests with coverage
+coverage:
+	@python -m coverage run -m pytest tests
+	@python -m coverage report --show-missing
 
 ## docs: build documentation
 docs:
@@ -50,3 +61,7 @@ run-local:
 run-wasm:
 	@make build-wasm
 	python -m http.server --directory temp
+
+## test: run Python tests
+test:
+	@pytest tests
