@@ -9,7 +9,7 @@ from .ordering import OrderingWidget
 from .turtle import Color, Turtle, World
 from .utilities import is_pyodide, localize_file
 
-__version__ = "0.8.1"
+__version__ = "0.8.2"
 __all__ = [
     "is_pyodide",
     "localize_file",

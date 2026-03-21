@@ -37,6 +37,7 @@ docs:
 	@mkdocs build
 	@touch docs/.nojekyll
 	@cp etc/docs-requirements.txt docs/requirements.txt
+	@uv run marimo export html-wasm --force --mode edit example/demo.py -o docs/demo.html --sandbox
 
 ## fix: fix formatting and code issues
 fix:
