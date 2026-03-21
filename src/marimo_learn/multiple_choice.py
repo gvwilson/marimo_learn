@@ -1,11 +1,12 @@
 """Multiple Choice Widget for Marimo"""
 
-import anywidget
 from pathlib import Path
 import traitlets
 
+from .base import BaseWidget
 
-class MultipleChoiceWidget(anywidget.AnyWidget):
+
+class MultipleChoiceWidget(BaseWidget):
     """
     A multiple choice question widget.
 
@@ -17,16 +18,12 @@ class MultipleChoiceWidget(anywidget.AnyWidget):
         value (dict): Current state with 'selected', 'correct', and 'answered' keys
     """
 
-    # Load JavaScript from external file
     _esm = Path(__file__).parent / "static" / "multiple-choice.js"
 
-    # Traitlets
     question = traitlets.Unicode("").tag(sync=True)
     options = traitlets.List(trait=traitlets.Unicode()).tag(sync=True)
     correct_answer = traitlets.Int(0).tag(sync=True)
     explanation = traitlets.Unicode("").tag(sync=True)
-    lang = traitlets.Unicode("en").tag(sync=True)
-    value = traitlets.Dict(default_value=None, allow_none=True).tag(sync=True)
 
     def __init__(
         self,
@@ -37,18 +34,11 @@ class MultipleChoiceWidget(anywidget.AnyWidget):
         lang: str = "en",
         **kwargs,
     ):
-        """
-        Initialize a multiple choice widget.
-
-        Args:
-            question: The question text
-            options: List of answer options
-            correct_answer: Index of the correct answer (0-based)
-            explanation: Optional explanation text
-        """
-        super().__init__(**kwargs)
-        self.question = question
-        self.options = options
-        self.correct_answer = correct_answer
-        self.explanation = explanation
-        self.lang = lang
+        super().__init__(
+            question=question,
+            options=options,
+            correct_answer=correct_answer,
+            explanation=explanation,
+            lang=lang,
+            **kwargs,
+        )

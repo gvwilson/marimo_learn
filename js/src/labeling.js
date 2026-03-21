@@ -1,18 +1,12 @@
 import styles from './styles.css';
 import { addHelpButton } from './help.js';
+import { mk } from './utils.js';
 
 const HELP_TEXT = {
   en: 'Drag the numbered labels from the left panel and drop them onto the correct text lines on the right. You can remove a placed label by dragging it outside the text area. Click Check Labels when done.',
   fr: 'Faites glisser les étiquettes numérotées du panneau gauche et déposez-les sur les lignes de texte correctes à droite. Supprimez une étiquette en la faisant glisser hors de la zone de texte. Cliquez sur Vérifier les étiquettes quand vous avez terminé.',
   es: 'Arrastre las etiquetas numeradas del panel izquierdo y suéltelas en las líneas de texto correctas de la derecha. Elimine una etiqueta arrastrándola fuera del área de texto. Haga clic en Verificar etiquetas cuando termine.',
 };
-
-function mk(tag, cls, txt) {
-  const el = document.createElement(tag);
-  if (cls) el.className = cls;
-  if (txt !== undefined) el.textContent = txt;
-  return el;
-}
 
 function render({ model, el }) {
   const s = mk('style'); s.textContent = styles; el.appendChild(s);

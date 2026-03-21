@@ -1,18 +1,12 @@
 import styles from './styles.css';
 import { addHelpButton } from './help.js';
+import { mk } from './utils.js';
 
 const HELP_TEXT = {
   en: 'Select the answer you think is correct by clicking on it. Your answer is submitted immediately and you\'ll see whether you were right.',
   fr: 'Cliquez sur la réponse que vous pensez correcte. Votre réponse est soumise immédiatement et vous verrez si vous aviez raison.',
   es: 'Seleccione la respuesta que crea correcta haciendo clic en ella. Su respuesta se envía de inmediato y verá si acertó.',
 };
-
-function mk(tag, cls, txt) {
-  const el = document.createElement(tag);
-  if (cls) el.className = cls;
-  if (txt !== undefined) el.textContent = txt;
-  return el;
-}
 
 function render({ model, el }) {
   const s = mk('style'); s.textContent = styles; el.appendChild(s);

@@ -1,11 +1,12 @@
 """Flashcard Widget for Marimo"""
 
-import anywidget
 from pathlib import Path
 import traitlets
 
+from .base import BaseWidget
 
-class FlashcardWidget(anywidget.AnyWidget):
+
+class FlashcardWidget(BaseWidget):
     """
     A flashcard widget with self-reported spaced repetition.
 
@@ -25,12 +26,6 @@ class FlashcardWidget(anywidget.AnyWidget):
     question = traitlets.Unicode("").tag(sync=True)
     cards = traitlets.List().tag(sync=True)
     shuffle = traitlets.Bool(True).tag(sync=True)
-    lang = traitlets.Unicode("en").tag(sync=True)
-    value = traitlets.Dict(default_value=None, allow_none=True).tag(sync=True)
 
     def __init__(self, cards, question="", shuffle=True, lang="en", **kwargs):
-        super().__init__(**kwargs)
-        self.question = question
-        self.cards = cards
-        self.shuffle = shuffle
-        self.lang = lang
+        super().__init__(cards=cards, question=question, shuffle=shuffle, lang=lang, **kwargs)

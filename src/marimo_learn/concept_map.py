@@ -1,11 +1,12 @@
 """Concept Map Widget for Marimo"""
 
-import anywidget
 from pathlib import Path
 import traitlets
 
+from .base import BaseWidget
 
-class ConceptMapWidget(anywidget.AnyWidget):
+
+class ConceptMapWidget(BaseWidget):
     """
     A concept mapping widget where students draw labeled directed edges between concepts.
 
@@ -26,8 +27,6 @@ class ConceptMapWidget(anywidget.AnyWidget):
     concepts = traitlets.List(trait=traitlets.Unicode()).tag(sync=True)
     terms = traitlets.List(trait=traitlets.Unicode()).tag(sync=True)
     correct_edges = traitlets.List().tag(sync=True)
-    lang = traitlets.Unicode("en").tag(sync=True)
-    value = traitlets.Dict(default_value=None, allow_none=True).tag(sync=True)
 
     def __init__(
         self,
@@ -38,9 +37,11 @@ class ConceptMapWidget(anywidget.AnyWidget):
         lang: str = "en",
         **kwargs,
     ):
-        super().__init__(**kwargs)
-        self.question = question
-        self.concepts = concepts
-        self.terms = terms
-        self.correct_edges = correct_edges if correct_edges is not None else []
-        self.lang = lang
+        super().__init__(
+            question=question,
+            concepts=concepts,
+            terms=terms,
+            correct_edges=correct_edges if correct_edges is not None else [],
+            lang=lang,
+            **kwargs,
+        )

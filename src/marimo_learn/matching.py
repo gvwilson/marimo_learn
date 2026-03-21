@@ -1,11 +1,12 @@
 """Matching Widget for Marimo"""
 
-import anywidget
 from pathlib import Path
 import traitlets
 
+from .base import BaseWidget
 
-class MatchingWidget(anywidget.AnyWidget):
+
+class MatchingWidget(BaseWidget):
     """
     A matching question widget where students pair items from two columns using drag-and-drop.
 
@@ -17,16 +18,12 @@ class MatchingWidget(anywidget.AnyWidget):
         value (dict): Current state with 'matches', 'correct', and 'score' keys
     """
 
-    # Load JavaScript from external file
     _esm = Path(__file__).parent / "static" / "matching.js"
 
-    # Traitlets
     question = traitlets.Unicode("").tag(sync=True)
     left = traitlets.List(trait=traitlets.Unicode()).tag(sync=True)
     right = traitlets.List(trait=traitlets.Unicode()).tag(sync=True)
     correct_matches = traitlets.Dict().tag(sync=True)
-    lang = traitlets.Unicode("en").tag(sync=True)
-    value = traitlets.Dict(default_value=None, allow_none=True).tag(sync=True)
 
     def __init__(
         self,
@@ -37,18 +34,11 @@ class MatchingWidget(anywidget.AnyWidget):
         lang: str = "en",
         **kwargs,
     ):
-        """
-        Initialize a matching widget.
-
-        Args:
-            question: The question text
-            left: Items in the left column
-            right: Items in the right column
-            correct_matches: Dict mapping left indices to right indices (e.g., {0: 2, 1: 0, 2: 1})
-        """
-        super().__init__(**kwargs)
-        self.question = question
-        self.left = left
-        self.right = right
-        self.correct_matches = correct_matches
-        self.lang = lang
+        super().__init__(
+            question=question,
+            left=left,
+            right=right,
+            correct_matches=correct_matches,
+            lang=lang,
+            **kwargs,
+        )

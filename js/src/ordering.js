@@ -1,18 +1,12 @@
 import styles from './styles.css';
 import { addHelpButton } from './help.js';
+import { mk, shuffle } from './utils.js';
 
 const HELP_TEXT = {
   en: 'Drag the items up or down to arrange them in the correct order. Click Check Order to submit your answer, or Reset to shuffle and start over.',
   fr: 'Faites glisser les éléments vers le haut ou le bas pour les mettre dans le bon ordre. Cliquez sur Vérifier l\'ordre pour soumettre, ou Réinitialiser pour recommencer.',
   es: 'Arrastre los elementos hacia arriba o abajo para ordenarlos correctamente. Haga clic en Verificar orden para enviar su respuesta, o Restablecer para comenzar de nuevo.',
 };
-
-function mk(tag, cls, txt) {
-  const el = document.createElement(tag);
-  if (cls) el.className = cls;
-  if (txt !== undefined) el.textContent = txt;
-  return el;
-}
 
 function render({ model, el }) {
   const s = mk('style'); s.textContent = styles; el.appendChild(s);
@@ -71,7 +65,7 @@ function render({ model, el }) {
   resetBtn.addEventListener('click', () => {
     if (submitted) return;
     current = [...correct];
-    if (model.get('shuffle')) for (let i = current.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [current[i], current[j]] = [current[j], current[i]]; }
+    if (model.get('shuffle')) shuffle(current);
     renderItems(); feedbackEl.style.display = 'none'; sync();
   });
 

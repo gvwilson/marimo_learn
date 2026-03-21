@@ -1,18 +1,12 @@
 import styles from './styles.css';
 import { addHelpButton } from './help.js';
+import { mk } from './utils.js';
 
 const HELP_TEXT = {
   en: 'Select a relationship term, then click two concept nodes to draw a directed connection between them. Drag concept nodes to rearrange the layout. Click × on a connection to remove it. Click Check Map when done.',
   fr: 'Sélectionnez un terme de relation, puis cliquez sur deux nœuds pour tracer une connexion dirigée. Faites glisser les nœuds pour réorganiser. Cliquez sur × pour supprimer une connexion. Cliquez sur Vérifier la carte quand vous avez terminé.',
   es: 'Seleccione un término de relación, luego haga clic en dos nodos para trazar una conexión dirigida. Arrastre los nodos para reorganizarlos. Haga clic en × para eliminar una conexión. Haga clic en Verificar mapa cuando termine.',
 };
-
-function mk(tag, cls, txt) {
-  const el = document.createElement(tag);
-  if (cls) el.className = cls;
-  if (txt !== undefined) el.textContent = txt;
-  return el;
-}
 
 const NS = 'http://www.w3.org/2000/svg';
 function mks(tag, attrs) {

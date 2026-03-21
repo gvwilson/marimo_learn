@@ -1,18 +1,12 @@
 import styles from './styles.css';
 import { addHelpButton } from './help.js';
+import { mk, shuffle } from './utils.js';
 
 const HELP_TEXT = {
   en: 'Read the front of each card, then click Flip to see the answer. Rate how well you knew it: Got it (you knew it), Almost (close but not quite), or No (didn\'t know it). Cards rated Almost or No will reappear until you get them right.',
   fr: 'Lisez le recto de la carte, puis cliquez sur Retourner pour voir la réponse. Évaluez : Compris (vous le saviez), Presque (proche) ou Non (vous ne le saviez pas). Les cartes notées Presque ou Non réapparaîtront.',
   es: 'Lea el frente de la tarjeta y haga clic en Voltear para ver la respuesta. Califique: Entendido (lo sabía), Casi (cerca) o No (no lo sabía). Las tarjetas con Casi o No reaparecerán hasta que las domine.',
 };
-
-function mk(tag, cls, txt) {
-  const el = document.createElement(tag);
-  if (cls) el.className = cls;
-  if (txt !== undefined) el.textContent = txt;
-  return el;
-}
 
 function render({ model, el }) {
   const s = mk('style'); s.textContent = styles; el.appendChild(s);
@@ -28,12 +22,7 @@ function render({ model, el }) {
 
   // Build initial queue (0..n-1), shuffle if requested
   let queue = cards.map((_, i) => i);
-  if (model.get('shuffle')) {
-    for (let i = queue.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [queue[i], queue[j]] = [queue[j], queue[i]];
-    }
-  }
+  if (model.get('shuffle')) shuffle(queue);
 
   // Progress bar
   const progressWrap = mk('div', 'faw-progress');
@@ -87,12 +76,7 @@ function render({ model, el }) {
     restartBtn.addEventListener('click', () => {
       done.clear();
       queue = cards.map((_, i) => i);
-      if (model.get('shuffle')) {
-        for (let i = queue.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [queue[i], queue[j]] = [queue[j], queue[i]];
-        }
-      }
+      if (model.get('shuffle')) shuffle(queue);
       restartBtn.remove();
       showCard();
     });

@@ -1,18 +1,12 @@
 import styles from './styles.css';
 import { addHelpButton } from './help.js';
+import { mk } from './utils.js';
 
 const HELP_TEXT = {
   en: 'Drag items from the right column and drop them into the matching slots in the middle column. Click a placed item to remove it and try again. All items must be matched before you can check your answers.',
   fr: 'Faites glisser les éléments de la colonne droite et déposez-les dans les emplacements correspondants de la colonne centrale. Cliquez sur un élément placé pour le retirer. Tous les éléments doivent être appariés avant de vérifier.',
   es: 'Arrastre los elementos de la columna derecha y suéltelos en las ranuras correspondientes de la columna central. Haga clic en un elemento colocado para eliminarlo. Todos los elementos deben estar emparejados antes de verificar.',
 };
-
-function mk(tag, cls, txt) {
-  const el = document.createElement(tag);
-  if (cls) el.className = cls;
-  if (txt !== undefined) el.textContent = txt;
-  return el;
-}
 
 function render({ model, el }) {
   const s = mk('style'); s.textContent = styles; el.appendChild(s);
