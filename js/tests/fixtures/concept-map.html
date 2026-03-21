@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"></head><body>
+<div id="root"></div>
+<script type="module">
+import widget from '/src/marimo_learn/static/concept-map.js';
+
+const state = {
+  question: 'Connect the water states:',
+  concepts: ['Water', 'Ice', 'Steam'],
+  terms: ['freezes to', 'melts to', 'boils to'],
+  correct_edges: [
+    { from: 'Water', to: 'Ice',   label: 'freezes to' },
+    { from: 'Ice',   to: 'Water', label: 'melts to'   },
+    { from: 'Water', to: 'Steam', label: 'boils to'   },
+  ],
+  lang: 'en',
+  value: null,
+};
+const setCalls = [];
+const model = {
+  get: (k) => state[k],
+  set: (k, v) => { state[k] = v; setCalls.push([k, v]); },
+  save_changes: () => {},
+  on: () => {},
+};
+window._state = state;
+window._setCalls = setCalls;
+widget.render({ model, el: document.getElementById('root') });
+</script>
+</body></html>

@@ -64,4 +64,5 @@ run-wasm:
 
 ## test: run Python tests
 test:
+	@cd js && npm test
 	@pytest tests

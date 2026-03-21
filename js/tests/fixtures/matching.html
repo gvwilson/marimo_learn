@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"></head><body>
+<div id="root"></div>
+<script type="module">
+import widget from '/src/marimo_learn/static/matching.js';
+
+const state = {
+  question: 'Match each animal to its sound:',
+  left:  ['Cat', 'Dog', 'Bird'],
+  right: ['Meow', 'Woof', 'Tweet'],
+  correct_matches: { '0': 0, '1': 1, '2': 2 },
+  lang: 'en',
+  value: null,
+};
+const setCalls = [];
+const model = {
+  get: (k) => state[k],
+  set: (k, v) => { state[k] = v; setCalls.push([k, v]); },
+  save_changes: () => {},
+  on: () => {},
+};
+window._state = state;
+window._setCalls = setCalls;
+widget.render({ model, el: document.getElementById('root') });
+</script>
+</body></html>

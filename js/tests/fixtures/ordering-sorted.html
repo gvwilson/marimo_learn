@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"></head><body>
+<div id="root"></div>
+<script type="module">
+import widget from '/src/marimo_learn/static/ordering.js';
+
+/* current_order matches items so submitting shows ✓ */
+const state = {
+  question: 'Order these steps:',
+  items: ['Step A', 'Step B', 'Step C'],
+  current_order: ['Step A', 'Step B', 'Step C'],
+  shuffle: false,
+  lang: 'en',
+  value: null,
+};
+const setCalls = [];
+const model = {
+  get: (k) => state[k],
+  set: (k, v) => { state[k] = v; setCalls.push([k, v]); },
+  save_changes: () => {},
+  on: () => {},
+};
+window._state = state;
+window._setCalls = setCalls;
+widget.render({ model, el: document.getElementById('root') });
+</script>
+</body></html>

@@ -6,6 +6,10 @@ dist/
 __pycache__/
 *.py[cod]
 
+# Javascript
+js/node_modules/
+js/test-results/
+
 # Testing
 .coverage
 .pytest_cache/
@@ -28,4 +32,4 @@ __marimo__
 
 # Build output
 dist/
-src/faw/static/
+src/marimo_learn/static/
