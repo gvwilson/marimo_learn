@@ -25,7 +25,7 @@ check:
 clean:
 	@find . -path './.venv' -prune -o -type d -name '__pycache__' -exec rm -rf {} +
 	@find . -path './.venv' -prune -o -type f -name '*~' -exec rm {} +
-	@rm -rf dist temp src/marimo_learn/static
+	@rm -rf dist js/dist temp src/marimo_learn/static
 
 ## coverage: run tests with coverage
 coverage:

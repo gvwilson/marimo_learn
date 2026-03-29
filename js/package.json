@@ -1,17 +1,27 @@
 {
-  "name": "marimo-learn-js",
+  "name": "marimo-learn",
   "version": "0.1.0",
-  "description": "JavaScript modules for formative assessment widgets",
+  "description": "Standalone formative assessment widgets (multiple choice, flashcard, matching, ordering, labeling, concept map)",
   "type": "module",
+  "main": "./dist/marimo-learn.js",
+  "exports": {
+    ".": "./dist/marimo-learn.js"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "node build.js",
     "watch": "node build.js --watch",
-    "clean": "rm -rf ../src/marimo_learn/static",
+    "clean": "rm -rf ../src/marimo_learn/static dist",
     "test": "npm run build && npx playwright test --config=playwright.config.js"
   },
   "keywords": [
     "education",
-    "AnyWidget"
+    "widgets",
+    "formative-assessment",
+    "AnyWidget",
+    "marimo"
   ],
   "author": "Greg Wilson",
   "license": "MIT",

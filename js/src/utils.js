@@ -11,3 +11,15 @@ export function shuffle(arr) {
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
 }
+
+// Creates a minimal anywidget-compatible model backed by a plain JS object.
+// Used by the standalone bundle so widget render functions work without Python.
+export function createModel(data) {
+  const state = { ...data };
+  return {
+    get: (k) => state[k],
+    set: (k, v) => { state[k] = v; },
+    save_changes: () => {},
+    on: () => {},
+  };
+}
