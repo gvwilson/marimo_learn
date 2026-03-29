@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Labeling Widget Examples</title>
+  <link rel="stylesheet" href="example.css">
+</head>
+<body>
+
+<h1>Labeling Widget</h1>
+
+<!-- ------------------------------------------------------------------ -->
+<h2>Configured via JavaScript</h2>
+<p><code>labels</code> is the list of draggable labels; <code>text_lines</code>
+is the list of lines to label; <code>correct_labels</code> maps each line index
+to a list of correct label indices (multiple labels per line are allowed).</p>
+<div id="js-example"></div>
+
+<!-- ------------------------------------------------------------------ -->
+<h2>Configured via HTML</h2>
+<p>Write a two-column table inside a <code>div.marimo-labeling</code>: column 1
+is the text to label and column 2 is the correct label name (or a
+comma-separated list of names for lines that accept multiple labels).
+The available label list is derived automatically from the unique names in
+column 2.</p>
+
+<div class="marimo-labeling">
+<p>Label each HTTP status code with its category:</p>
+<table>
+<tr><td>200 OK</td>                    <td>Success</td></tr>
+<tr><td>201 Created</td>               <td>Success</td></tr>
+<tr><td>301 Moved Permanently</td>     <td>Redirect</td></tr>
+<tr><td>400 Bad Request</td>           <td>Client Error</td></tr>
+<tr><td>401 Unauthorized</td>          <td>Client Error</td></tr>
+<tr><td>404 Not Found</td>             <td>Client Error</td></tr>
+<tr><td>500 Internal Server Error</td> <td>Server Error</td></tr>
+</table>
+</div>
+
+<script type="module">
+import { renderLabeling } from '../js/dist/marimo-learn.js';
+
+renderLabeling(document.getElementById('js-example'), {
+  question: 'Label the parts of this Python function definition:',
+  labels:      ['keyword', 'name', 'parameter', 'return type hint', 'body'],
+  text_lines:  ['def', 'greet', 'name: str', '-> str:', '    return f"Hello, {name}!"'],
+  correct_labels: { 0: [0], 1: [1], 2: [2], 3: [3], 4: [4] },
+  lang: 'en',
+});
+</script>
+
+</body>
+</html>

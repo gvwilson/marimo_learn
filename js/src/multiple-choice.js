@@ -54,4 +54,14 @@ function render({ model, el }) {
   el.appendChild(container);
 }
 
+// Parse a <div class="marimo-multiple-choice" data-correct="N"> block.
+// Question comes from the first <p>; options from <li> elements.
+// The correct answer index is read from data-correct on the outer div.
+export function parseHTML(div) {
+  const question     = div.querySelector('p')?.textContent.trim() ?? '';
+  const options      = [...div.querySelectorAll('li')].map(li => li.textContent.trim());
+  const correct_answer = parseInt(div.dataset.correct ?? '0');
+  return { question, options, correct_answer, explanation: '', lang: div.dataset.lang ?? 'en' };
+}
+
 export default { render };

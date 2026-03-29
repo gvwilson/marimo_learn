@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Multiple Choice Widget Examples</title>
+  <link rel="stylesheet" href="example.css">
+</head>
+<body>
+
+<h1>Multiple Choice Widget</h1>
+
+<!-- ------------------------------------------------------------------ -->
+<h2>Configured via JavaScript</h2>
+<p>Question and options are passed as a plain config object.</p>
+<div id="js-example"></div>
+
+<!-- ------------------------------------------------------------------ -->
+<h2>Configured via HTML</h2>
+<p>The widget is described in a <code>div.marimo-multiple-choice</code> block.
+The correct answer index is given by <code>data-correct</code> on the outer div;
+the question comes from the <code>&lt;p&gt;</code> and options from the <code>&lt;ol&gt;</code>.</p>
+
+<div class="marimo-multiple-choice" data-correct="2">
+<p>Which keyword is used to define a function in Python?</p>
+<ol>
+<li>function</li>
+<li>fun</li>
+<li>def</li>
+<li>define</li>
+</ol>
+</div>
+
+<script type="module">
+import { renderMultipleChoice } from '../js/dist/marimo-learn.js';
+
+renderMultipleChoice(document.getElementById('js-example'), {
+  question:      'What is the approximate speed of light in a vacuum?',
+  options:       ['300 km/s', '3,000 km/s', '300,000 km/s', '3,000,000 km/s'],
+  correct_answer: 2,
+  lang:          'en',
+});
+</script>
+
+</body>
+</html>

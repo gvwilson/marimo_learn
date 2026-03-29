@@ -118,4 +118,15 @@ function render({ model, el }) {
   el.appendChild(container);
 }
 
+// Parse a <div class="marimo-flashcard"> block.
+// Optional heading comes from the first <p>; cards from <dt>/<dd> pairs in a <dl>.
+export function parseHTML(div) {
+  const question = div.querySelector('p')?.textContent.trim() ?? '';
+  const cards = [...div.querySelectorAll('dt')].map(dt => ({
+    front: dt.textContent.trim(),
+    back:  dt.nextElementSibling?.textContent.trim() ?? '',
+  }));
+  return { question, cards, shuffle: true, lang: div.dataset.lang ?? 'en' };
+}
+
 export default { render };

@@ -212,4 +212,23 @@ function render({ model, el }) {
   el.appendChild(container);
 }
 
+// Parse a <div class="marimo-concept-map"> block.
+// Question from the first <p>; a three-column table where each row is a correct edge:
+//   column 1 = source node, column 2 = relationship label, column 3 = target node.
+// concepts and terms are inferred as unique values in first-appearance order.
+export function parseHTML(div) {
+  const question = div.querySelector('p')?.textContent.trim() ?? '';
+  const concepts = [], terms = [];
+  const correct_edges = [...div.querySelectorAll('tr')].map(r => {
+    const from  = r.cells[0].textContent.trim();
+    const label = r.cells[1].textContent.trim();
+    const to    = r.cells[2].textContent.trim();
+    if (!concepts.includes(from))  concepts.push(from);
+    if (!concepts.includes(to))    concepts.push(to);
+    if (!terms.includes(label))    terms.push(label);
+    return { from, label, to };
+  });
+  return { question, concepts, terms, correct_edges, lang: div.dataset.lang ?? 'en' };
+}
+
 export default { render };

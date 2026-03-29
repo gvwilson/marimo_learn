@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Concept Map Widget Examples</title>
+  <link rel="stylesheet" href="example.css">
+</head>
+<body>
+
+<h1>Concept Map Widget</h1>
+
+<!-- ------------------------------------------------------------------ -->
+<h2>Configured via JavaScript</h2>
+<p><code>concepts</code> and <code>terms</code> are specified explicitly;
+<code>correct_edges</code> lists every valid directed connection as
+<code>{from, label, to}</code>.</p>
+<div id="js-example"></div>
+
+<!-- ------------------------------------------------------------------ -->
+<h2>Configured via HTML</h2>
+<p>Write the correct edges as rows in a three-column table inside a
+<code>div.marimo-concept-map</code>: column 1 is the source node, column 2 is
+the relationship label, column 3 is the target node.
+The node and term lists are inferred automatically.</p>
+
+<div class="marimo-concept-map">
+<p>Map the stages of the software development lifecycle:</p>
+<table>
+<tr><td>Requirements</td> <td>feeds into</td>   <td>Design</td></tr>
+<tr><td>Design</td>       <td>feeds into</td>   <td>Implementation</td></tr>
+<tr><td>Implementation</td><td>feeds into</td>  <td>Testing</td></tr>
+<tr><td>Testing</td>      <td>feeds into</td>   <td>Deployment</td></tr>
+<tr><td>Deployment</td>   <td>leads to</td>     <td>Maintenance</td></tr>
+<tr><td>Maintenance</td>  <td>generates</td>    <td>Requirements</td></tr>
+</table>
+</div>
+
+<script type="module">
+import { renderConceptMap } from '../js/dist/marimo-learn.js';
+
+renderConceptMap(document.getElementById('js-example'), {
+  question: 'Draw a simple food web:',
+  concepts: ['Sun', 'Grass', 'Rabbit', 'Fox'],
+  terms:    ['energy flows to', 'is eaten by'],
+  correct_edges: [
+    { from: 'Sun',    label: 'energy flows to', to: 'Grass'  },
+    { from: 'Grass',  label: 'is eaten by',     to: 'Rabbit' },
+    { from: 'Rabbit', label: 'is eaten by',     to: 'Fox'    },
+  ],
+  lang: 'en',
+});
+</script>
+
+</body>
+</html>

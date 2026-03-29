@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Flashcard Widget Examples</title>
+  <link rel="stylesheet" href="example.css">
+</head>
+<body>
+
+<h1>Flashcard Widget</h1>
+
+<!-- ------------------------------------------------------------------ -->
+<h2>Configured via JavaScript</h2>
+<p>Cards are passed as an array of <code>{front, back}</code> objects.</p>
+<div id="js-example"></div>
+
+<!-- ------------------------------------------------------------------ -->
+<h2>Configured via HTML</h2>
+<p>Cards are written as a <code>&lt;dl&gt;</code> inside a
+<code>div.marimo-flashcard</code>: each <code>&lt;dt&gt;</code> is the front
+and the following <code>&lt;dd&gt;</code> is the back.</p>
+
+<div class="marimo-flashcard">
+<p>Git Commands</p>
+<dl>
+<dt>Create a new branch and switch to it</dt>
+<dd>git checkout -b &lt;branch-name&gt;</dd>
+<dt>Stage all changes for the next commit</dt>
+<dd>git add .</dd>
+<dt>Undo the last commit but keep the changes staged</dt>
+<dd>git reset --soft HEAD~1</dd>
+<dt>Show the commit history as a compact graph</dt>
+<dd>git log --oneline --graph</dd>
+</dl>
+</div>
+
+<script type="module">
+import { renderFlashcard } from '../js/dist/marimo-learn.js';
+
+renderFlashcard(document.getElementById('js-example'), {
+  question: 'Python Built-ins',
+  cards: [
+    { front: 'Return the number of items in a sequence',       back: 'len()' },
+    { front: 'Return a sorted list from any iterable',         back: 'sorted()' },
+    { front: 'Apply a function to every item of an iterable',  back: 'map()' },
+    { front: 'Return the largest item in an iterable',         back: 'max()' },
+    { front: 'Combine iterables into tuples element-wise',     back: 'zip()' },
+  ],
+  shuffle: true,
+  lang: 'en',
+});
+</script>
+
+</body>
+</html>

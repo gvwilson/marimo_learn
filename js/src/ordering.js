@@ -77,4 +77,15 @@ function render({ model, el }) {
   function sync() { if (!submitted) { model.set('value', { order: current, correct: false }); model.save_changes(); } }
 }
 
+// Parse a <div class="marimo-ordering"> block.
+// Question from the first <p>; correct order from <ol> list items.
+// current_order is a shuffled copy shown to the student initially.
+export function parseHTML(div) {
+  const question = div.querySelector('p')?.textContent.trim() ?? '';
+  const items    = [...div.querySelectorAll('ol li')].map(li => li.textContent.trim());
+  const current_order = [...items];
+  shuffle(current_order);
+  return { question, items, current_order, shuffle: true, lang: div.dataset.lang ?? 'en' };
+}
+
 export default { render };

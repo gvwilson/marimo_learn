@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Ordering Widget Examples</title>
+  <link rel="stylesheet" href="example.css">
+</head>
+<body>
+
+<h1>Ordering Widget</h1>
+
+<!-- ------------------------------------------------------------------ -->
+<h2>Configured via JavaScript</h2>
+<p><code>items</code> lists the correct order; <code>current_order</code> is the
+order shown to the student (usually a shuffle of <code>items</code>).</p>
+<div id="js-example"></div>
+
+<!-- ------------------------------------------------------------------ -->
+<h2>Configured via HTML</h2>
+<p>List the steps in correct order inside an <code>&lt;ol&gt;</code>.
+The widget shuffles them automatically for the student.</p>
+
+<div class="marimo-ordering">
+<p>Put the Git workflow steps in the correct order:</p>
+<ol>
+<li>Clone or initialise the repository</li>
+<li>Create a new feature branch</li>
+<li>Make changes and stage them with git add</li>
+<li>Commit the staged changes</li>
+<li>Push the branch to the remote</li>
+<li>Open a pull request for review</li>
+<li>Merge the pull request into main</li>
+</ol>
+</div>
+
+<script type="module">
+import { renderOrdering } from '../js/dist/marimo-learn.js';
+
+const steps = [
+  'Boil the water',
+  'Warm the teapot',
+  'Add tea leaves or a tea bag',
+  'Pour in the boiled water',
+  'Steep for the recommended time',
+  'Remove the tea leaves and pour',
+];
+
+renderOrdering(document.getElementById('js-example'), {
+  question:      'Arrange the steps for making a proper cup of tea:',
+  items:         steps,
+  current_order: [...steps].sort(() => Math.random() - 0.5),
+  shuffle:       true,
+  lang:          'en',
+});
+</script>
+
+</body>
+</html>

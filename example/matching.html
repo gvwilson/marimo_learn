@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Matching Widget Examples</title>
+  <link rel="stylesheet" href="example.css">
+</head>
+<body>
+
+<h1>Matching Widget</h1>
+
+<!-- ------------------------------------------------------------------ -->
+<h2>Configured via JavaScript</h2>
+<p>Left items, right items, and the correct index mapping are provided directly.
+Note that <code>correct_matches</code> maps left-column index → right-column index
+<em>as displayed</em>, so shuffle the right array yourself if desired.</p>
+<div id="js-example"></div>
+
+<!-- ------------------------------------------------------------------ -->
+<h2>Configured via HTML</h2>
+<p>Each row of the table defines one pair: the left cell is the prompt and the
+right cell is the answer. The right column is shuffled automatically.</p>
+
+<div class="marimo-matching">
+<p>Match each Python exception to the situation that raises it:</p>
+<table>
+<tr><td>ZeroDivisionError</td><td>Dividing a number by zero</td></tr>
+<tr><td>KeyError</td>         <td>Accessing a missing dictionary key</td></tr>
+<tr><td>TypeError</td>        <td>Calling a function with the wrong argument type</td></tr>
+<tr><td>IndexError</td>       <td>Accessing a list element beyond its length</td></tr>
+</table>
+</div>
+
+<script type="module">
+import { renderMatching } from '../js/dist/marimo-learn.js';
+
+renderMatching(document.getElementById('js-example'), {
+  question:        'Match each country to its capital city:',
+  left:            ['France', 'Japan', 'Brazil', 'Egypt'],
+  right:           ['Cairo', 'Brasília', 'Paris', 'Tokyo'],
+  correct_matches: { 0: 2, 1: 3, 2: 1, 3: 0 },
+  lang:            'en',
+});
+</script>
+
+</body>
+</html>

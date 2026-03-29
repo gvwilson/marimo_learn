@@ -1,6 +1,6 @@
 import styles from './styles.css';
 import { addHelpButton } from './help.js';
-import { mk } from './utils.js';
+import { mk, shuffle } from './utils.js';
 
 const HELP_TEXT = {
   en: 'Drag items from the right column and drop them into the matching slots in the middle column. Click a placed item to remove it and try again. All items must be matched before you can check your answers.',
@@ -78,6 +78,21 @@ function render({ model, el }) {
   el.appendChild(container);
 
   function sync() { model.set('value', { matches, correct: false, score: 0, total: left.length }); model.save_changes(); }
+}
+
+// Parse a <div class="marimo-matching"> block.
+// Question from the first <p>; each table row defines one left/right pair.
+// The right column is shuffled; correct_matches is updated to reflect the new order.
+export function parseHTML(div) {
+  const question = div.querySelector('p')?.textContent.trim() ?? '';
+  const rows = [...div.querySelectorAll('tr')];
+  const left         = rows.map(r => r.cells[0].textContent.trim());
+  const rightOrdered = rows.map(r => r.cells[1].textContent.trim());
+  const indices      = rightOrdered.map((_, i) => i);
+  shuffle(indices);
+  const right          = indices.map(i => rightOrdered[i]);
+  const correct_matches = Object.fromEntries(left.map((_, i) => [i, indices.indexOf(i)]));
+  return { question, left, right, correct_matches, lang: div.dataset.lang ?? 'en' };
 }
 
 export default { render };

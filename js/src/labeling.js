@@ -108,4 +108,25 @@ function render({ model, el }) {
   function sync() { if (!submitted) { model.set('value', { placed_labels: placed, score: 0, total: 0, correct: false }); model.save_changes(); } }
 }
 
+// Parse a <div class="marimo-labeling"> block.
+// Question from the first <p>; a two-column table where column 1 is the text line
+// and column 2 is comma-separated label name(s) for that line.
+// The labels list is derived as unique names in first-appearance order.
+export function parseHTML(div) {
+  const question = div.querySelector('p')?.textContent.trim() ?? '';
+  const rows     = [...div.querySelectorAll('tr')];
+  const labelNames = [];
+  rows.forEach(r => {
+    r.cells[1].textContent.split(',').map(s => s.trim()).forEach(name => {
+      if (name && !labelNames.includes(name)) labelNames.push(name);
+    });
+  });
+  const text_lines     = rows.map(r => r.cells[0].textContent.trim());
+  const correct_labels = Object.fromEntries(rows.map((r, i) => [
+    i,
+    r.cells[1].textContent.split(',').map(s => labelNames.indexOf(s.trim())),
+  ]));
+  return { question, labels: labelNames, text_lines, correct_labels, lang: div.dataset.lang ?? 'en' };
+}
+
 export default { render };
