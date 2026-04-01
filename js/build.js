@@ -1,65 +1,46 @@
 /**
- * Build script for Marimo Education Widgets
+ * Build script for marimo-learn.
+ *
+ * 1. Copies per-widget ESM files from @gvwilson/forma into
+ *    src/marimo_learn/static/ for use by the Python anywidget package.
+ * 2. Copies the standalone forma bundle into js/dist/ for the example pages.
+ * 3. Builds turtle.js (marimo-learn-specific) with esbuild and places it
+ *    alongside the other static files.
  */
 
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import * as esbuild from 'esbuild';
 
-const isWatch = process.argv.includes('--watch');
+const dir      = path.dirname(fileURLToPath(import.meta.url));
+const formaSrc = path.resolve(dir, 'node_modules/@gvwilson/forma/dist');
+const widgetDst = path.resolve(dir, '../src/marimo_learn/static');
+const bundleDst = path.resolve(dir, 'dist');
 
-// Per-widget builds consumed by the Python anywidget package
-const anywidgetConfig = {
-  entryPoints: [
-    'src/concept-map.js',
-    'src/flashcard.js',
-    'src/labeling.js',
-    'src/matching.js',
-    'src/multiple-choice.js',
-    'src/ordering.js',
-    'src/turtle.js'
-  ],
-  bundle: true,
-  format: 'esm',
-  outdir: '../src/marimo_learn/static',
-  minify: false,
-  sourcemap: true,
-  logLevel: 'info',
-  loader: { '.css': 'text' },
-};
-
-// Single standalone bundle for use without Python (npm / CDN)
-const bundleConfig = {
-  entryPoints: ['src/index.js'],
-  bundle: true,
-  format: 'esm',
-  outfile: 'dist/marimo-learn.js',
-  minify: false,
-  sourcemap: true,
-  logLevel: 'info',
-  loader: { '.css': 'text' },
-};
-
-async function build() {
-  try {
-    if (isWatch) {
-      console.log('Watching for changes...');
-      const [ctx1, ctx2] = await Promise.all([
-        esbuild.context(anywidgetConfig),
-        esbuild.context(bundleConfig),
-      ]);
-      await Promise.all([ctx1.watch(), ctx2.watch()]);
-      console.log('Watch mode active');
-    } else {
-      console.log('Building JavaScript modules...');
-      await Promise.all([
-        esbuild.build(anywidgetConfig),
-        esbuild.build(bundleConfig),
-      ]);
-      console.log('Build complete!');
-    }
-  } catch (error) {
-    console.error('Build failed:', error);
-    process.exit(1);
-  }
+// --- 1. Copy forma per-widget files ---
+fs.mkdirSync(widgetDst, { recursive: true });
+for (const file of fs.readdirSync(path.join(formaSrc, 'widgets'))) {
+  fs.copyFileSync(
+    path.join(formaSrc, 'widgets', file),
+    path.join(widgetDst, file),
+  );
 }
+console.log('Copied forma widgets →', widgetDst);
 
-build();
+// --- 2. Copy standalone forma bundle for example pages ---
+fs.mkdirSync(bundleDst, { recursive: true });
+fs.copyFileSync(path.join(formaSrc, 'forma.js'), path.join(bundleDst, 'forma.js'));
+console.log('Copied forma bundle  →', path.join(bundleDst, 'forma.js'));
+
+// --- 3. Build turtle.js with esbuild ---
+await esbuild.build({
+  entryPoints: ['src/turtle.js'],
+  bundle: true,
+  format: 'esm',
+  outfile: path.join(widgetDst, 'turtle.js'),
+  minify: false,
+  sourcemap: true,
+  logLevel: 'info',
+});
+console.log('Built turtle.js      →', path.join(widgetDst, 'turtle.js'));

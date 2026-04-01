@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Predict-Then-Check Widget Examples</title>
+  <link rel="stylesheet" href="example.css">
+</head>
+<body>
+
+<h1>Predict-Then-Check Widget</h1>
+
+<!-- ------------------------------------------------------------------ -->
+<h2>Configured via JavaScript</h2>
+<p>Code, output, options, and explanations are passed as a plain config object.</p>
+<div id="js-example"></div>
+
+<!-- ------------------------------------------------------------------ -->
+<h2>Configured via HTML</h2>
+<p>The widget is described in a <code>div.forma-predict-then-check</code> block.
+The code lives in a <code>&lt;pre&gt;</code>; the actual output in a
+<code>&lt;samp&gt;</code>; options and explanations come from a
+<code>&lt;dl&gt;</code> where the <code>&lt;dd&gt;</code> starting with
+"Correct" marks the right answer.</p>
+
+<div class="forma-predict-then-check" data-lang="en">
+  <p>What does this Python code print?</p>
+  <pre>items = [1, 2, 3]
+print(items[-1])</pre>
+  <dl>
+    <dt>1</dt><dd>Wrong: -1 counts from the end, not the start.</dd>
+    <dt>3</dt><dd>Correct: items[-1] returns the last element.</dd>
+    <dt>[1, 2, 3]</dt><dd>Wrong: print(items[-1]) prints a single element, not the whole list.</dd>
+    <dt>IndexError</dt><dd>Wrong: negative indices are valid in Python.</dd>
+  </dl>
+  <samp>3</samp>
+</div>
+
+<script type="module">
+import { renderPredictThenCheck } from 'https://unpkg.com/@gvwilson/forma/dist/forma.js';
+
+renderPredictThenCheck(document.getElementById('js-example'), {
+  question:       'What does this Python code print?',
+  code:           'x = 10\ny = 3\nprint(x // y)',
+  output:         '3',
+  options:        ['3.33', '3', '1', '10'],
+  correct_answer: 1,
+  explanations: [
+    'Wrong: // is integer (floor) division, not true division.',
+    'Correct: 10 // 3 = 3 (floor division discards the remainder).',
+    'Wrong: 1 would be the remainder (use % for that).',
+    'Wrong: 10 is the dividend, not the result.',
+  ],
+  lang: 'en',
+});
+</script>
+
+</body>
+</html>

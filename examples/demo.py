@@ -30,7 +30,9 @@ def _():
         LabelingWidget,
         MatchingWidget,
         MultipleChoiceWidget,
+        NumericEntryWidget,
         OrderingWidget,
+        PredictThenCheckWidget,
         World,
     )
 
@@ -41,7 +43,9 @@ def _():
         LabelingWidget,
         MatchingWidget,
         MultipleChoiceWidget,
+        NumericEntryWidget,
         OrderingWidget,
+        PredictThenCheckWidget,
         World,
     )
 
@@ -336,6 +340,79 @@ def _(mo, ordering_question):
 @app.cell
 def _(mo):
     mo.md("""
+    ## Numeric Entry Question
+    """)
+    return
+
+
+@app.cell
+def _(NumericEntryWidget, mo):
+    numeric_entry_question = mo.ui.anywidget(
+        NumericEntryWidget(
+            question="How many bits are in one byte?",
+            correct_answer=8,
+            tolerance=0.5,
+            explanation="A byte consists of exactly 8 bits.",
+        )
+    )
+    numeric_entry_question
+    return (numeric_entry_question,)
+
+
+@app.cell
+def _(mo, numeric_entry_question):
+    _val = numeric_entry_question.value.get("value") or {}
+    if _val.get("answered"):
+        _msg = "Score: 1/1" if _val.get("ok") else "Score: 0/1"
+    else:
+        _msg = "Not answered yet"
+    mo.md(f"**{_msg}**")
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""
+    ## Predict-Then-Check Question
+    """)
+    return
+
+
+@app.cell
+def _(PredictThenCheckWidget, mo):
+    predict_then_check_question = mo.ui.anywidget(
+        PredictThenCheckWidget(
+            question="What does this Python code print?",
+            code='words = ["one", "two", "three"]\nprint(len(words))',
+            output="3",
+            options=["2", "3", "['one', 'two', 'three']", "None"],
+            correct_answer=1,
+            explanations=[
+                "Wrong: len() counts all items; the list has three elements.",
+                "Correct: len() returns the number of items, which is 3.",
+                "Wrong: len() returns an integer count, not the list itself.",
+                "Wrong: len() always returns an integer, never None.",
+            ],
+        )
+    )
+    predict_then_check_question
+    return (predict_then_check_question,)
+
+
+@app.cell
+def _(mo, predict_then_check_question):
+    _val = predict_then_check_question.value.get("value") or {}
+    if _val.get("answered"):
+        _msg = "Score: 1/1" if _val.get("correct") else "Score: 0/1"
+    else:
+        _msg = "Not answered yet"
+    mo.md(f"**{_msg}**")
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md("""
     ---
 
     ## Quiz Results Summary
@@ -352,7 +429,9 @@ def _(
     matching_question,
     multiple_choice_question,
     mo,
+    numeric_entry_question,
     ordering_question,
+    predict_then_check_question,
 ):
     def widget_val(widget):
         return widget.value.get("value") or {}
@@ -365,6 +444,8 @@ def _(
             (widget_val(matching_question), "score", "correct"),
             (widget_val(multiple_choice_question), "answered", "correct"),
             (widget_val(ordering_question), "order", "correct"),
+            (widget_val(numeric_entry_question), "answered", "ok"),
+            (widget_val(predict_then_check_question), "answered", "correct"),
         ]:
             if val.get(answered_key) is not None and val.get(answered_key) is not False:
                 total += 1

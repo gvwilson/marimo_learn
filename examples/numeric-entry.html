@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Numeric Entry Widget Examples</title>
+  <link rel="stylesheet" href="example.css">
+</head>
+<body>
+
+<h1>Numeric Entry Widget</h1>
+
+<!-- ------------------------------------------------------------------ -->
+<h2>Configured via JavaScript</h2>
+<p>Question, correct answer, and tolerance are passed as a plain config object.</p>
+<div id="js-example"></div>
+
+<!-- ------------------------------------------------------------------ -->
+<h2>Configured via HTML</h2>
+<p>The widget is described in a <code>div.forma-numeric-entry</code> block.
+The correct answer is given by <code>data-correct</code> and the acceptance
+window by <code>data-tolerance</code>; the question comes from the
+<code>&lt;p&gt;</code>.</p>
+
+<div class="forma-numeric-entry" data-correct="9.81" data-tolerance="0.01" data-lang="en">
+  <p>What is the acceleration due to gravity at Earth's surface in m/s²?
+     (answer to two decimal places)</p>
+</div>
+
+<script type="module">
+import { renderNumericEntry } from 'https://unpkg.com/@gvwilson/forma/dist/forma.js';
+
+renderNumericEntry(document.getElementById('js-example'), {
+  question:       'How many sides does a regular hexagon have?',
+  correct_answer: 6,
+  tolerance:      0.5,
+  explanation:    'A hexagon has exactly 6 sides.',
+  lang:           'en',
+});
+</script>
+
+</body>
+</html>

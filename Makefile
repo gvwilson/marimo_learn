@@ -9,8 +9,8 @@ commands:
 
 ## build: build JavaScript and Python package
 build:
-	@cd js && npm run build
-	@python -m build
+	@cd js && npm install && npm run build
+	@uv run python -m build --no-isolation
 
 ## setup: complete installation of development dependencies
 setup:
@@ -65,5 +65,12 @@ run-wasm:
 
 ## test: run Python tests
 test:
-	@cd js && npm test
 	@pytest tests
+
+## jsversion: find version of JavaScript forma package
+jsversion:
+	npm info @gvwilson/forma
+
+## update-forma: upgrade @gvwilson/forma to latest and rebuild
+update-forma:
+	@cd js && npm install @gvwilson/forma@latest && npm run build
