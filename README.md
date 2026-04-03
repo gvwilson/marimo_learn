@@ -1,8 +1,7 @@
 # marimo-learn
 
 Formative assessment widgets for [marimo](https://marimo.io) notebooks.
-Six widget types are provided: **Flashcard**, **MultipleChoice**, **Ordering**,
-**Matching**, **Labeling**, and **ConceptMap**.
+[![Open in molab](https://molab.marimo.io/molab-shield.svg)](https://molab.marimo.io/notebooks/nb_t8ncyuR7r3buyKxZfABp2Y)
 
 ## Installation
 
